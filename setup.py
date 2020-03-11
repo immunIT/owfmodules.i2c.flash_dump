@@ -4,14 +4,14 @@
 
 from setuptools import setup, find_packages
 
-__authors__ = ""
-__copyright__ = ""
+__authors__ = "Jordan Ovrè, Paul Duncan"
+__copyright__ = "Copyright (c) Jordan Ovrè / Paul Duncan"
 __license__ = "GPLv3"
 __version__ = "1.0.0"
-__contact__ = ""
+__contact__ = "Jordan Ovrè / Ghecko <ghecko78@gmail.com>, Paul Duncan / Eresse <eresse@dooba.io>"
 
-description = ''
-name = 'owfmodules.<category>.<module_name>'
+description = 'Octowire Framework dump I2C flash memory'
+name = 'owfmodules.i2c.flash_dump'
 
 setup(
     name=name,
