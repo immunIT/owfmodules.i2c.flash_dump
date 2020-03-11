@@ -2,6 +2,6 @@
 
 Dump I2C flash chip.
 
-## Tested on the following chip
+**Tested on the following chip:**
 
-    1. AT24C family chip
+* AT24C family chip
