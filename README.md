@@ -1,4 +1,7 @@
-# owfmodules.skeleton
-Module base repository
+# owfmodules.i2c.flash_dump
 
-Please read [CONTRIBUTING.md](https://bitbucket.org/octowire/octowire-framework/src/master/CONTRIBUTING.md) to follow the contribution process.
+Dump I2C flash chip.
+
+## Tested on the following chip
+
+    1. AT24C family chip
