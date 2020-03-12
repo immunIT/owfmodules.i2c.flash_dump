@@ -15,8 +15,6 @@ class FlashDump(AModule):
             'author': 'Jordan Ovrè <ghecko78@gmail.com> / Paul Duncan <eresse@dooba.io>'
         })
         self.options = [
-            {"Name": "detect_octowire", "Value": "", "Required": True, "Type": "bool",
-             "Description": "Detect and connect octowire hardware", "Default": True},
             {"Name": "i2c_bus", "Value": "", "Required": True, "Type": "int",
              "Description": "The octowire I2C device (0=I2C0 or 1=I2C1)", "Default": 0},
             {"Name": "slave_address", "Value": "", "Required": True, "Type": "hex",
