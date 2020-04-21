@@ -40,7 +40,7 @@ class FlashDump(AModule):
         ]
         self.advanced_options.append(
             {"Name": "chunk_size", "Value": "", "Required": True, "Type": "hex",
-             "Description": "Flash chunk size (128 bytes page by default)", "Default": 0x80},
+             "Description": "Flash chunk size (128 bytes page by default)", "Default": 0x80}
         )
 
     @staticmethod
