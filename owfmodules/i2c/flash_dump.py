@@ -18,7 +18,7 @@ class FlashDump(AModule):
         super(FlashDump, self).__init__(owf_config)
         self.meta.update({
             'name': 'I2C dump flash',
-            'version': '1.0.0',
+            'version': '1.0.1',
             'description': 'Dump I2C flash memory',
             'author': 'Jordan Ovrè <ghecko78@gmail.com> / Paul Duncan <eresse@dooba.io>'
         })
