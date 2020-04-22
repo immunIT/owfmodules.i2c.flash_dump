@@ -54,14 +54,14 @@ class FlashDump(AModule):
         return "%.1f%s%s" % (num, 'Yi', suffix)
 
     def flash_dump(self):
-        bus_id = self.get_option_value("i2c_bus")
-        i2c_baudrate = self.get_option_value("i2c_baudrate")
-        current_chunk_addr = self.get_option_value("start_chunk")
-        chunk_size = self.get_advanced_option_value("chunk_size")
-        slave_addr = self.get_option_value("slave_address")
-        chunks = self.get_option_value("chunks")
-        dump_file = self.get_option_value("dumpfile")
-        int_addr_length = self.get_option_value("int_addr_length")
+        bus_id = self.options["i2c_bus"]["Value"]
+        i2c_baudrate = self.options["i2c_baudrate"]["Value"]
+        current_chunk_addr = self.options["start_chunk"]["Value"]
+        chunk_size = self.advanced_options["chunk_size"]["Value"]
+        slave_addr = self.options["slave_address"]["Value"]
+        chunks = self.options["chunks"]["Value"]
+        dump_file = self.options["dumpfile"]["Value"]
+        int_addr_length = self.options["int_addr_length"]["Value"]
 
         # Flash memory size
         size = chunk_size * chunks
