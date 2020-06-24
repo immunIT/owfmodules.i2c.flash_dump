@@ -1,10 +1,10 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Octowire Framework
-# Copyright (c) Jordan Ovrè / Paul Duncan
-# License: GPLv3
-# Paul Duncan / Eresse <eresse@dooba.io>
-# Jordan Ovrè / Ghecko <ghecko78@gmail.com
+# Copyright (c) ImmunIT - Jordan Ovrè / Paul Duncan
+# License: Apache 2.0
+# Paul Duncan / Eresse <pduncan@immunit.ch>
+# Jordan Ovrè / Ghecko <jovre@immunit.ch>
 
 import shutil
 import time
@@ -20,7 +20,7 @@ class FlashDump(AModule):
             'name': 'I2C dump flash',
             'version': '1.0.0',
             'description': 'Dump I2C flash memory',
-            'author': 'Jordan Ovrè <ghecko78@gmail.com> / Paul Duncan <eresse@dooba.io>'
+            'author': 'Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>'
         })
         self.options = {
             "i2c_bus": {"Value": "", "Required": True, "Type": "int",
