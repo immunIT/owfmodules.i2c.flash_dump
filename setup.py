@@ -10,7 +10,7 @@ __license__ = "Apache 2.0"
 __version__ = "1.0.0"
 __contact__ = "Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>"
 
-description = 'Octowire Framework dump I2C flash memory'
+description = 'Dump generic I2C flash memories'
 name = 'owfmodules.i2c.flash_dump'
 
 setup(
