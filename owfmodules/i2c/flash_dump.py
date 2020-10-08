@@ -6,8 +6,7 @@
 # Paul Duncan / Eresse <pduncan@immunit.ch>
 # Jordan Ovrè / Ghecko <jovre@immunit.ch>
 
-import shutil
-import time
+from tqdm import tqdm
 
 from octowire_framework.module.AModule import AModule
 from octowire.i2c import I2C
@@ -18,7 +17,7 @@ class FlashDump(AModule):
         super(FlashDump, self).__init__(owf_config)
         self.meta.update({
             'name': 'I2C flash dump',
-            'version': '1.0.1',
+            'version': '1.1.0',
             'description': 'Dump generic I2C flash memories',
             'author': 'Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>'
         })
@@ -33,16 +32,16 @@ class FlashDump(AModule):
                          "Description": "Dump output filename", "Default": ""},
             "chunks": {"Value": "", "Required": True, "Type": "int",
                        "Description": "Number of chunks (see chunk_size\nadvanced options)", "Default": 512},
-            "start_chunk": {"Value": "", "Required": True, "Type": "hex",
+            "start_chunk": {"Value": "", "Required": True, "Type": "int",
                             "Description": "Start chunk address (see chunk_size\nadvanced options)",
-                            "Default": 0x0000},
+                            "Default": 0},
             "i2c_baudrate": {"Value": "", "Required": True, "Type": "int",
                              "Description": "I2C frequency in Hz (supported values: 100000 or 400000)",
                              "Default": 400000},
         }
         self.advanced_options.update({
-            "chunk_size": {"Value": "", "Required": True, "Type": "hex",
-                           "Description": "Flash chunk size (128 byte pages by default)", "Default": 0x80}
+            "chunk_size": {"Value": "", "Required": True, "Type": "int",
+                           "Description": "Flash chunk size (128 bytes page by default)", "Default": 128}
         })
 
     @staticmethod
@@ -56,7 +55,7 @@ class FlashDump(AModule):
     def flash_dump(self):
         bus_id = self.options["i2c_bus"]["Value"]
         i2c_baudrate = self.options["i2c_baudrate"]["Value"]
-        current_chunk_addr = self.options["start_chunk"]["Value"]
+        start_chunk_addr = self.options["start_chunk"]["Value"]
         chunk_size = self.advanced_options["chunk_size"]["Value"]
         slave_addr = self.options["slave_address"]["Value"]
         chunks = self.options["chunks"]["Value"]
@@ -65,9 +64,6 @@ class FlashDump(AModule):
 
         # Flash memory size
         size = chunk_size * chunks
-
-        # Get the width of the terminal for dynamic printing
-        t_width, _ = shutil.get_terminal_size()
 
         # Buffer
         buff = bytearray()
@@ -79,17 +75,19 @@ class FlashDump(AModule):
         self.logger.handle("Starting dump: {}.".format(self._sizeof_fmt(size)), self.logger.HEADER)
 
         try:
-            start_time = time.time()
-            while current_chunk_addr < size:
-                resp = i2c_interface.receive(size=chunk_size, i2c_addr=slave_addr, int_addr=current_chunk_addr,
+            for chunk_nb in tqdm(range(start_chunk_addr, chunks), desc="Reading",
+                                 unit_scale=False, ascii=" #", unit_divisor=1,
+                                 bar_format="{desc} : {percentage:3.0f}%[{bar}] {n_fmt}/{total_fmt} chunks "
+                                            "(" + str(chunk_size) + " bytes) "
+                                            "[elapsed: {elapsed} left: {remaining}]"):
+                chunk_addr = chunk_nb * chunk_size
+                resp = i2c_interface.receive(size=chunk_size, i2c_addr=slave_addr, int_addr=chunk_addr,
                                              int_addr_length=int_addr_length)
                 if not resp:
                     raise Exception("Unexpected error while reading the I2C flash")
                 buff.extend(resp)
-                current_chunk_addr += chunk_size
-            self.logger.handle("Successfully dumped {} from flash memory.".format(self._sizeof_fmt(current_chunk_addr)),
+            self.logger.handle("Successfully dumped {} from flash memory.".format(self._sizeof_fmt(size)),
                                self.logger.SUCCESS)
-            self.logger.handle("Dumped in {} seconds.".format(time.time() - start_time, self.logger.INFO))
             with open(dump_file, 'wb') as f:
                 f.write(buff)
             self.logger.handle("Dump saved into {}".format(dump_file), self.logger.RESULT)
